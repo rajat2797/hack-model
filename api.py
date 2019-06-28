@@ -67,6 +67,6 @@ if __name__ == '__main__':
     
     vehicle_vehicleStyle = joblib.load('vehicle_vehicleStyle.pkl')
     print ('vehicle_vehicleStyle loaded')
-    print (vehicle_vehicleStyle)
+    #print (vehicle_vehicleStyle)
     
-    app.run(port=5400, host='0.0.0.0', ebug=False)
+    app.run(port=5400, host='0.0.0.0', debug=False)
