@@ -69,4 +69,4 @@ if __name__ == '__main__':
     print ('vehicle_vehicleStyle loaded')
     #print (vehicle_vehicleStyle)
     
-    app.run(debug=False)
+    app.run(port=5400, debug=False)
