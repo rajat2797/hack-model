@@ -2,9 +2,9 @@
 from flask import Flask, request, jsonify
 from sklearn.externals import joblib
 import pandas as pd
-import numpy as np
+#import numpy as np
 from sklearn.externals import joblib
-import json
+#import json
 
 # Your API definition
 app = Flask(__name__)
@@ -55,18 +55,18 @@ if __name__ == '__main__':
     
     vehicle_make = joblib.load('vehicle_make.pkl')
     print ('vehicle_make loaded')
-    #print (vehicle_make)
+    print (vehicle_make)
     
     vehicle_model = joblib.load('vehicle_model.pkl')
     print ('vehicle_model loaded')
-    #print (vehicle_model)
+    print (vehicle_model)
     
     vehicle_transmissionType = joblib.load('vehicle_transmissionType.pkl')
     print ('vehicle_transmissionType loaded')
-    #print (vehicle_transmissionType)
+    print (vehicle_transmissionType)
     
     vehicle_vehicleStyle = joblib.load('vehicle_vehicleStyle.pkl')
     print ('vehicle_vehicleStyle loaded')
-    #print (vehicle_vehicleStyle)
+    print (vehicle_vehicleStyle)
     
-    app.run(port=5400, host='0.0.0.0', debug=False)
+    app.run(port=5400, debug=False)

@@ -72,14 +72,20 @@ cinfo = cinfo[cinfo.columns[neworder]]
 car_info_X = cinfo.values[:,0:-1]
 car_info_Y = cinfo.values[:,-1]
 
+
 labelencoder = LabelEncoder()
 
 car_info_X[:,0] = labelencoder.fit_transform(car_info_X[:,0])
+
 
 keys = labelencoder.classes_
 values = labelencoder.transform(labelencoder.classes_)
 dictionary = dict(zip(keys, values))
 joblib.dump(dictionary, 'vehicle_make.pkl', protocol=2)
+    
+'''vehicle_make = joblib.load('vehicle_make.pkl')
+print ('vehicle_make loaded')
+print (vehicle_make)'''
 
 car_info_X[:,1] = labelencoder.fit_transform(car_info_X[:,1])
 
@@ -102,18 +108,36 @@ values = labelencoder.transform(labelencoder.classes_)
 dictionary = dict(zip(keys, values))
 joblib.dump(dictionary, 'vehicle_vehicleStyle.pkl', protocol=2)
 
-"""
-onehotencoder = OneHotEncoder(categorical_features = [0,1,5])
-car_info_X = onehotencoder.fit_transform(car_info_X).toarray()
-"""
+
+'''onehotencoder = OneHotEncoder(categorical_features = [0,1,5])
+car_info_X = onehotencoder.fit_transform(car_info_X).toarray()'''
+
+
 
 X_train, X_test, Y_train, Y_test = train_test_split(car_info_X, car_info_Y, test_size=0.20)
 
-gbr = GradientBoostingRegressor(loss ='ls', max_depth=6)
+'''from sklearn.preprocessing import MinMaxScaler
+
+scaler = MinMaxScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.fit_transform(X_test)'''
+
+'''gbr = GradientBoostingRegressor(loss ='ls', max_depth=6)
 gbr.fit(X_train, Y_train)
 predictions = gbr.predict(X_test)
 residual = Y_test-predictions
-acc = r2_score(Y_test,predictions)
-joblib.dump(gbr, 'price_pred.pkl', protocol=2)
+acc = r2_score(Y_test,predictions)'''
+
+learning_rates = [0.05, 0.1, 0.25, 0.5, 0.75, 1]
+for learning_rate in learning_rates:
+    gb = GradientBoostingRegressor(n_estimators=70, learning_rate = learning_rate, max_features=6, max_depth = 500)
+    gb.fit(X_train, Y_train)
+    print("Learning rate: ", learning_rate)
+    print("Accuracy score (training): {0:.3f}".format(gb.score(X_train, Y_train)))
+    print("Accuracy score (validation): {0:.3f}".format(gb.score(X_test, Y_test)))
+    print()
+
+
+joblib.dump(gb, 'price_pred.pkl', protocol=2)
 model_columns = list(cinfo.columns[:-1])
 joblib.dump(model_columns, 'model_columns.pkl', protocol=2)
